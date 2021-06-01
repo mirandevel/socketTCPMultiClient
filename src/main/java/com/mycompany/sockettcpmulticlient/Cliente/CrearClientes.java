@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Usuario
  */
-public class CrearClientes extends Thread {
+public class CrearClientes {
 
     private final int PUERTO;
     private final String IP;
@@ -31,12 +31,17 @@ public class CrearClientes extends Thread {
         }
     }
 
-    @Override
-    public void run() {
+    public void conectar() {
+        for (int i = 0; i < clientes.size(); i++) {
+            Cliente cliente = clientes.get(i);
+            cliente.conectar(IP, PUERTO);
+        }
+    }
+
+    public void enviarMensaje() {
         for (int i = 0; i < clientes.size(); i++) {
             final int j = i;
             Cliente cliente = clientes.get(i);
-            cliente.conectar(IP, PUERTO);
             Timer timer = new Timer();
             TimerTask task = new TimerTask() {
                 @Override
@@ -44,13 +49,12 @@ public class CrearClientes extends Thread {
                     try {
                         String respuesta = cliente.enviarMensaje("Cliente " + j + " Hola");
                     } catch (IOException ex) {
-                        cliente.reconectar(IP,PUERTO);
+                        cliente.reconectar(IP, PUERTO);
                     }
                 }
             };
             timer.schedule(task, 0, 2000);
         }
-    }  
-    
+    }
 
 }

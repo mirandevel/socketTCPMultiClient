@@ -14,10 +14,9 @@ public class InicioServidor {
     /**
      * @param args the command line arguments
      */
-    private static final int PUERTO=5000;
     public static void main(String[] args) {
-        ServidorEscuchar escuchar=new ServidorEscuchar(PUERTO);
-        escuchar.start();
+        Servidor servidor=new Servidor(Integer.parseInt(args[0]));
+       // escuchar.start();
     }
     
 }

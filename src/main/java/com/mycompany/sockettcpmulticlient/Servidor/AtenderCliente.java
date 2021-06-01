@@ -5,15 +5,18 @@
  */
 package com.mycompany.sockettcpmulticlient.Servidor;
 
-import event.Evento;
-import event.EventoListener;
+import com.mycompany.sockettcpmulticlient.event.Evento;
+import com.mycompany.sockettcpmulticlient.event.EventoListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import java.net.Socket;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,49 +24,57 @@ import java.net.Socket;
  */
 public class AtenderCliente extends Thread {
 
-    private final Socket clientSocket;
-    private final EventoListener eventoListener;
-    private DataOutputStream out;
+    private int clienteId;
     private DataInputStream in;
+    private DataOutputStream out;
+    private final EventoListener eventoListener;
+    private boolean atender;
 
-    public AtenderCliente(Socket socket,EventoListener listener) {
-        this.clientSocket = socket;
-        this.eventoListener=listener;
+    public AtenderCliente(int clienteId,InputStream in, OutputStream out, EventoListener listener) {
+        this.clienteId=clienteId;
+        this.in = new DataInputStream(in);
+        this.out = new DataOutputStream(out);
+        this.eventoListener = listener;
+        atender = true;
     }
 
     @Override
     public void run() {
         try {
-            in = new DataInputStream(clientSocket.getInputStream());
-            out = new DataOutputStream(clientSocket.getOutputStream());
-            
-            while (!clientSocket.isClosed()) {
+            while (atender) {
                 try {
                     String mensaje = in.readUTF();
-                    System.out.println(mensaje);
-                    out.writeUTF("Servidor "+mensaje);
+                    onMessage(mensaje);
+                    out.writeUTF("Servidor " + mensaje);
                 } catch (EOFException ex) {
                     break;
                 }
             }
-            
-            if (clientSocket.isClosed()) {
-                System.out.println("El cliente ha finalizo");
-            } else {
-                in.close();
-                out.close();
-                clientSocket.close();
-                System.out.println("Cliente finalizado desde el servidor");
-            }
-            
-            removerCliente();
-            
+            onDisconnect();
+
         } catch (IOException ex) {
-            removerCliente();
-            //System.out.println(ex.getMessage());
+            onDisconnect();
         }
     }
-    private void removerCliente(){
-        eventoListener.remover(new Evento(clientSocket,eventoListener));
+
+    public void detener() {
+        try {
+            atender = false;
+            in.close();
+            out.close();
+            this.interrupt();
+        } catch (IOException ex) {
+            Logger.getLogger(AtenderCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void onDisconnect() {
+        eventoListener.onDisconnect(new Evento(this, clienteId, this));
+
+    }
+
+    private void onMessage(String mensaje) {
+        eventoListener.onMessage(new Evento(this, clienteId, this, mensaje));
+
     }
 }

@@ -15,11 +15,11 @@ public class InicioCliente {
     /**
      * @param args the command line arguments
      */
-    private static final int PUERTO=5000;
-    private static final String IP="127.0.0.1";
+
     public static void main(String[] args) {
-        CrearClientes cc=new CrearClientes(PUERTO,IP);
-        cc.start();
+        CrearClientes cc=new CrearClientes(Integer.parseInt(args[0]),args[1]);
+        cc.conectar();
+        cc.enviarMensaje();
     }
 
 }

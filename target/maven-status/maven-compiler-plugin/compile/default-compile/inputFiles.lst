@@ -1,8 +1,10 @@
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\Cliente.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\Servidor.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\Escuchador.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Cliente\Cliente.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\Evento.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\InicioServidor.java
-D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\event\Evento.java
-D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\event\ClienteList.java
-D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\event\EventoListener.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\EventoListener.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\AtenderCliente.java
-D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\ServidorEscuchar.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Cliente\CrearClientes.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Cliente\InicioCliente.java

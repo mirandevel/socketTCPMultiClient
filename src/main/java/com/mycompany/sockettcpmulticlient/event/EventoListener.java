@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package event;
+package com.mycompany.sockettcpmulticlient.event;
 
 import java.util.EventListener;
 
@@ -11,6 +11,13 @@ import java.util.EventListener;
  *
  * @author Usuario
  */
-public interface EventoListener extends EventListener{
-    public void remover(Evento evento);
+public interface EventoListener extends EventListener {
+
+    public void onConnect(Evento evento);
+
+    public void onMessage(Evento evento);
+
+    public void onDisconnect(Evento evento);
+
+
 }
