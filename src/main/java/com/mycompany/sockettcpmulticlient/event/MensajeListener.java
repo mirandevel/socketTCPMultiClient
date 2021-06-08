@@ -5,19 +5,10 @@
  */
 package com.mycompany.sockettcpmulticlient.event;
 
-import java.util.EventListener;
-
 /**
  *
  * @author Usuario
  */
-public interface EventoListener extends EventListener {
-
-    public void onConnect(Evento evento);
-
-    public void onMessage(Evento evento);
-
-    public void onDisconnect(Evento evento);
-
-
+public interface MensajeListener {
+     public void onMessage(EventoMensaje evento);
 }

@@ -5,9 +5,7 @@
  */
 package com.mycompany.sockettcpmulticlient.Servidor;
 
-import com.mycompany.sockettcpmulticlient.event.Evento;
-import com.mycompany.sockettcpmulticlient.event.EventoListener;
-import java.io.DataInputStream;
+import com.mycompany.sockettcpmulticlient.event.EventoConexion;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,15 +15,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.mycompany.sockettcpmulticlient.event.ConexionListener;
+import com.mycompany.sockettcpmulticlient.event.EventoMensaje;
+import com.mycompany.sockettcpmulticlient.event.MensajeListener;
 
 /**
  *
  * @author Usuario
  */
-public class Servidor implements EventoListener {
+public class Servidor implements ConexionListener, MensajeListener {
 
     private ServerSocket serverSocket;
-    //private LinkedList<Cliente> clientes;
     List<Cliente> clientes = Collections.synchronizedList(new ArrayList<>());
     private Escuchador escuchador;
     private int PUERTO;
@@ -36,7 +36,8 @@ public class Servidor implements EventoListener {
             PUERTO = puerto;
             serverSocket = new ServerSocket(PUERTO);
             clientes = new LinkedList<>();
-            escuchador = new Escuchador(serverSocket, this);
+            escuchador = new Escuchador(serverSocket);
+            escuchador.addConexionListenner(this);
             escuchador.start();
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,12 +62,14 @@ public class Servidor implements EventoListener {
     }
 
     @Override
-    public void onConnect(Evento evento) {
+    public void onConnect(EventoConexion evento) {
         try {
             System.out.println("Nuevo cliente");
             Socket clientSocket = evento.getSocket();
             int clientId = clientes.isEmpty() ? 1 : clientes.get(clientes.size() - 1).getId() + 1;
-            AtenderCliente ac = new AtenderCliente(clientId, clientSocket.getInputStream(), clientSocket.getOutputStream(), this);
+            AtenderCliente ac = new AtenderCliente(clientId, clientSocket.getInputStream(), clientSocket.getOutputStream());
+            ac.addConexionListenner(this);
+            ac.addMensajeListenner(this);
             clientes.add(new Cliente(clientId, evento.getSocket(), ac));
             ac.start();
         } catch (IOException ex) {
@@ -75,12 +78,7 @@ public class Servidor implements EventoListener {
     }
 
     @Override
-    public void onMessage(Evento evento) {
-        System.out.println(evento.getMensaje());
-    }
-
-    @Override
-    public void onDisconnect(Evento evento) {
+    public void onDisconnect(EventoConexion evento) {
         synchronized (this) {
             try {
                 int cliendId = evento.getClienteId();
@@ -88,6 +86,8 @@ public class Servidor implements EventoListener {
                     Cliente cliente = clientes.get(i);
                     if (cliendId == cliente.getId()) {
                         cliente.getSocket().close();
+                        cliente.getHilo().removeConexionListenner(this);
+                        cliente.getHilo().removeMensajeListenner(this);
                         cliente.getHilo().detener();
                         clientes.remove(cliente);
                     }
@@ -101,5 +101,10 @@ public class Servidor implements EventoListener {
 
     public void cantidadClientes() {
         clientes.size();
+    }
+
+    @Override
+    public void onMessage(EventoMensaje evento) {
+        System.out.println(evento.getMensaje());
     }
 }

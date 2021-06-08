@@ -12,32 +12,22 @@ import java.util.EventObject;
  *
  * @author Usuario
  */
-public class Evento extends EventObject {
+public class EventoConexion extends EventObject {
 
     private Socket socket;
     private Thread hilo;
-    private String mensaje;
     private int clienteId;
 
-    public Evento(Object source, Socket socket) {
+    public EventoConexion(Object source, Socket socket) {
         super(source);
         this.socket = socket;
     }
 
-    public Evento(Object source, int clienteId, Thread hilo) {
+    public EventoConexion(Object source, int clienteId, Thread hilo) {
         super(source);
         this.clienteId = clienteId;
         this.socket = socket;
         this.hilo = hilo;
-
-    }
-
-    public Evento(Object source, int clienteId, Thread hilo, String mensaje) {
-        super(source);
-        this.clienteId = clienteId;
-        this.socket = socket;
-        this.hilo = hilo;
-        this.mensaje = mensaje;
     }
 
     public int getClienteId() {
@@ -51,9 +41,4 @@ public class Evento extends EventObject {
     public Thread getHilo() {
         return hilo;
     }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
 }
