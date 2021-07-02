@@ -34,6 +34,12 @@ public class EventoConexion extends EventObject {
         return clienteId;
     }    
 
+    public void setClienteId(int clienteId) {
+        this.clienteId = clienteId;
+    }
+    
+    
+
     public Socket getSocket() {
         return socket;
     }

@@ -1,10 +1,14 @@
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\Cliente.java
-D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\Servidor.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\EventoConexion.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\Escuchador.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Cliente\Cliente.java
-D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\Evento.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\EventoMensaje.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\InicioServidor.java
-D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\EventoListener.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\ConexionListener.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\Game\GameSocket.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\event\MensajeListener.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\Servidor.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Servidor\AtenderCliente.java
+D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\Game\Init.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Cliente\CrearClientes.java
 D:\UNIVERSIDAD\2020-3\Distribuidos\tareas\SocketTCPMultiClient\src\main\java\com\mycompany\sockettcpmulticlient\Cliente\InicioCliente.java

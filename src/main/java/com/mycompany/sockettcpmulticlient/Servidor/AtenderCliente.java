@@ -30,41 +30,43 @@ public class AtenderCliente extends Thread {
     private int clienteId;
     private DataInputStream in;
     private DataOutputStream out;
-    private  LinkedList<MensajeListener> mensajeListeners;
-    private  LinkedList<ConexionListener> conexionListeners;
+    private LinkedList<MensajeListener> mensajeListeners;
+    private LinkedList<ConexionListener> conexionListeners;
     private boolean atender;
 
-    public AtenderCliente(int clienteId,InputStream in, OutputStream out) {
-        this.clienteId=clienteId;
+    public AtenderCliente(int clienteId, InputStream in, OutputStream out) {
+        this.clienteId = clienteId;
         this.in = new DataInputStream(in);
         this.out = new DataOutputStream(out);
-      
-        this.mensajeListeners=new LinkedList<>();
-         this.conexionListeners=new LinkedList<>();
+
+        this.mensajeListeners = new LinkedList<>();
+        this.conexionListeners = new LinkedList<>();
         atender = true;
     }
-    
-    public void addMensajeListenner(MensajeListener mensajeListener){
+
+    public void addMensajeListenner(MensajeListener mensajeListener) {
         this.mensajeListeners.add(mensajeListener);
     }
-    
-    public void removeMensajeListenner(MensajeListener mensajeListener){
+
+    public void removeMensajeListenner(MensajeListener mensajeListener) {
         this.mensajeListeners.remove(mensajeListener);
     }
-    public void addConexionListenner(ConexionListener conexionListener){
+
+    public void addConexionListenner(ConexionListener conexionListener) {
         this.conexionListeners.add(conexionListener);
     }
-    
-    public void removeConexionListenner(ConexionListener conexionListener){
+
+    public void removeConexionListenner(ConexionListener conexionListener) {
         this.conexionListeners.remove(conexionListener);
     }
-    
 
     @Override
     public void run() {
         try {
             while (atender) {
                 try {
+                    //System.out.println("Atendiendo....................");
+                   // System.out.println(in.readChar());
                     String mensaje = in.readUTF();
                     onMessage(mensaje);
                     out.writeUTF("Servidor " + mensaje);
@@ -91,13 +93,15 @@ public class AtenderCliente extends Thread {
     }
 
     private void onDisconnect() {
-        for(ConexionListener listener: conexionListeners)
+        for (ConexionListener listener : conexionListeners) {
             listener.onDisconnect(new EventoConexion(this, clienteId, this));
+        }
     }
 
     private void onMessage(String mensaje) {
-        for(MensajeListener listener:mensajeListeners)
-        listener.onMessage(new EventoMensaje(this, clienteId, mensaje));
+        for (MensajeListener listener : mensajeListeners) {
+            listener.onMessage(new EventoMensaje(this, clienteId, mensaje));
+        }
 
     }
 }

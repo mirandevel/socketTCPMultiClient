@@ -11,12 +11,12 @@ import java.net.Socket;
  *
  * @author Usuario
  */
-public class Cliente {
+public class Client {
     int id;
     Socket socket;
     AtenderCliente hilo;
 
-    public Cliente(int id,Socket socket, AtenderCliente hilo) {
+    public Client(int id,Socket socket, AtenderCliente hilo) {
         this.id=id;
         this.socket = socket;
         this.hilo = hilo;
