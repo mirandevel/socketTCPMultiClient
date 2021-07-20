@@ -12,18 +12,28 @@ import java.net.Socket;
  * @author Usuario
  */
 public class Client {
-    int id;
+    int hash;
     Socket socket;
     AtenderCliente hilo;
 
-    public Client(int id,Socket socket, AtenderCliente hilo) {
-        this.id=id;
+    public Client() {
+        
+    }
+    
+
+    public Client(Socket socket, AtenderCliente hilo) {
+        this.hash=this.hashCode();
         this.socket = socket;
         this.hilo = hilo;
     }
 
-    public int getId() {
-        return id;
+    public void setHash(int hash) {
+        this.hash = hash;
+    }
+
+    
+    public int getHash() {
+        return hash;
     }
     
     public Socket getSocket() {

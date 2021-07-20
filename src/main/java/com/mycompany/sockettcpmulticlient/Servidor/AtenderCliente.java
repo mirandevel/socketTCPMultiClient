@@ -27,15 +27,15 @@ import java.util.LinkedList;
  */
 public class AtenderCliente extends Thread {
 
-    private int clienteId;
+    private int clienteHash;
     private DataInputStream in;
     private DataOutputStream out;
     private LinkedList<MensajeListener> mensajeListeners;
     private LinkedList<ConexionListener> conexionListeners;
     private boolean atender;
 
-    public AtenderCliente(int clienteId, InputStream in, OutputStream out) {
-        this.clienteId = clienteId;
+    public AtenderCliente(int clienteHash, InputStream in, OutputStream out) {
+        this.clienteHash = clienteHash;
         this.in = new DataInputStream(in);
         this.out = new DataOutputStream(out);
 
@@ -69,7 +69,7 @@ public class AtenderCliente extends Thread {
                    // System.out.println(in.readChar());
                     String mensaje = in.readUTF();
                     onMessage(mensaje);
-                    out.writeUTF("Servidor " + mensaje);
+                    //out.writeUTF("Servidor " + mensaje);
                 } catch (EOFException ex) {
                     break;
                 }
@@ -78,6 +78,13 @@ public class AtenderCliente extends Thread {
 
         } catch (IOException ex) {
             onDisconnect();
+        }
+    }
+    public void send(String message){
+        try {
+            out.writeUTF(message);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -94,14 +101,13 @@ public class AtenderCliente extends Thread {
 
     private void onDisconnect() {
         for (ConexionListener listener : conexionListeners) {
-            listener.onDisconnect(new EventoConexion(this, clienteId, this));
+            listener.onDisconnect(new EventoConexion(this, clienteHash, this));
         }
     }
 
     private void onMessage(String mensaje) {
         for (MensajeListener listener : mensajeListeners) {
-            listener.onMessage(new EventoMensaje(this, clienteId, mensaje));
+            listener.onMessage(new EventoMensaje(this, clienteHash, mensaje));
         }
-
     }
 }

@@ -76,14 +76,18 @@ public class Servidor implements ConexionListener, MensajeListener {
         try {
             System.out.println("Nuevo cliente");
             Socket clientSocket = evento.getSocket();
-            int clientId = clientes.isEmpty() ? 1 : clientes.get(clientes.size() - 1).getId() + 1;
-            evento.setClienteId(clientId);
-            AtenderCliente ac = new AtenderCliente(clientId, clientSocket.getInputStream(), clientSocket.getOutputStream());
+            Client client = new Client();
+          
+            AtenderCliente ac = new AtenderCliente(client.getHash(), clientSocket.getInputStream(), clientSocket.getOutputStream());
             ac.addConexionListenner(this);
             ac.addMensajeListenner(this);
-            Client cliente=new Client(clientId, evento.getSocket(), ac);
-            clientes.add(cliente);
+            
+            client.setHilo(ac);
+            client.setSocket(clientSocket);
+            clientes.add(client);
+            evento.setClientHash(client.getHash());
             ac.start();
+            
             for (ConexionListener listener : conexionListeners) {
                 listener.onConnect(evento);
             }
@@ -96,10 +100,10 @@ public class Servidor implements ConexionListener, MensajeListener {
     public void onDisconnect(EventoConexion evento) {
         synchronized (this) {
             try {
-                int cliendId = evento.getClienteId();
+                int clientHash = evento.getClientHash();
                 for (int i = 0; i < clientes.size(); i++) {
                     Client cliente = clientes.get(i);
-                    if (cliendId == cliente.getId()) {
+                    if (clientHash == cliente.getHash()) {
                         cliente.getSocket().close();
                         cliente.getHilo().removeConexionListenner(this);
                         cliente.getHilo().removeMensajeListenner(this);
@@ -116,14 +120,26 @@ public class Servidor implements ConexionListener, MensajeListener {
             System.out.println("disponibles " + clientes.size());
         }
     }
-
+    public void send(String message,int clienteHash){
+        Client client = null;
+        for(Client c:clientes){
+            if(c.getHash()==clienteHash){
+                client=c;
+                break;
+            }
+        }
+        if(client!=null){
+            client.getHilo().send(message);
+        }
+    }
+    
     public void cantidadClientes() {
         clientes.size();
     }
 
     @Override
     public void onMessage(EventoMensaje evento) {
-            for (MensajeListener listener : mensajeListeners) {
+        for (MensajeListener listener : mensajeListeners) {
             listener.onMessage(evento);
         }
         System.out.println(evento.getMensaje());
