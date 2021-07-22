@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Game;
+import Game.tablero.TemplateBoard;
 import com.mycompany.sockettcpmulticlient.Servidor.Servidor;
 import com.mycompany.sockettcpmulticlient.event.ConexionListener;
 import com.mycompany.sockettcpmulticlient.event.EventoConexion;
@@ -54,6 +55,9 @@ public class GameSocket implements ConexionListener, MensajeListener{
                     authController.login(jsonResult, event.getClientHash());
                 });
                 t.start();
+            }
+            if(action.compareTo("board")==0){
+                servidor.send(TemplateBoard.getTemplate(1), event.getClientHash());
             }
         } catch (ParseException ex) {
             Logger.getLogger(GameSocket.class.getName()).log(Level.SEVERE, null, ex);
