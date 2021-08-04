@@ -6,13 +6,14 @@
 package com.mycompany.sockettcpmulticlient.Servidor;
 
 import java.net.Socket;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  *
  * @author Usuario
  */
 public class Client {
-    int hash;
     Socket socket;
     AtenderCliente hilo;
 
@@ -22,18 +23,9 @@ public class Client {
     
 
     public Client(Socket socket, AtenderCliente hilo) {
-        this.hash=this.hashCode();
+
         this.socket = socket;
         this.hilo = hilo;
-    }
-
-    public void setHash(int hash) {
-        this.hash = hash;
-    }
-
-    
-    public int getHash() {
-        return hash;
     }
     
     public Socket getSocket() {
@@ -51,6 +43,8 @@ public class Client {
     public void setHilo(AtenderCliente hilo) {
         this.hilo = hilo;
     }
+
+    
 
     
 }

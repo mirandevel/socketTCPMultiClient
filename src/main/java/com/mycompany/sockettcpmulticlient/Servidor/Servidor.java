@@ -78,14 +78,15 @@ public class Servidor implements ConexionListener, MensajeListener {
             Socket clientSocket = evento.getSocket();
             Client client = new Client();
           
-            AtenderCliente ac = new AtenderCliente(client.getHash(), clientSocket.getInputStream(), clientSocket.getOutputStream());
+            AtenderCliente ac = new AtenderCliente(client.hashCode(), clientSocket.getInputStream(), clientSocket.getOutputStream());
             ac.addConexionListenner(this);
             ac.addMensajeListenner(this);
             
             client.setHilo(ac);
             client.setSocket(clientSocket);
             clientes.add(client);
-            evento.setClientHash(client.getHash());
+            evento.setClientHash(client.hashCode());
+            System.out.println(client.hashCode());
             ac.start();
             
             for (ConexionListener listener : conexionListeners) {
@@ -100,10 +101,10 @@ public class Servidor implements ConexionListener, MensajeListener {
     public void onDisconnect(EventoConexion evento) {
         synchronized (this) {
             try {
-                int clientHash = evento.getClientHash();
+                long clientHash = evento.getClientHash();
                 for (int i = 0; i < clientes.size(); i++) {
                     Client cliente = clientes.get(i);
-                    if (clientHash == cliente.getHash()) {
+                    if (clientHash == cliente.hashCode()) {
                         cliente.getSocket().close();
                         cliente.getHilo().removeConexionListenner(this);
                         cliente.getHilo().removeMensajeListenner(this);
@@ -120,10 +121,10 @@ public class Servidor implements ConexionListener, MensajeListener {
             System.out.println("disponibles " + clientes.size());
         }
     }
-    public void send(String message,int clienteHash){
+    public void send(String message,long clienteHash){
         Client client = null;
         for(Client c:clientes){
-            if(c.getHash()==clienteHash){
+            if(c.hashCode()==clienteHash){
                 client=c;
                 break;
             }

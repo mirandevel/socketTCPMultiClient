@@ -16,25 +16,25 @@ public class EventoConexion extends EventObject {
 
     private Socket socket;
     private Thread hilo;
-    private int clientHash;
+    private long clientHash;
 
     public EventoConexion(Object source, Socket socket) {
         super(source);
         this.socket = socket;
     }
 
-    public EventoConexion(Object source, int clientHash, Thread hilo) {
+    public EventoConexion(Object source, long clientHash, Thread hilo) {
         super(source);
         this.clientHash = clientHash;
         this.socket = socket;
         this.hilo = hilo;
     }
 
-    public int getClientHash() {
+    public long getClientHash() {
         return clientHash;
     }    
 
-    public void setClientHash(int clientHash) {
+    public void setClientHash(long clientHash) {
         this.clientHash = clientHash;
     }
     

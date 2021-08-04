@@ -7,6 +7,7 @@ package Game;
 
 import com.mycompany.sockettcpmulticlient.Servidor.Servidor;
 import com.mycompany.sockettcpmulticlient.event.MensajeListener;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import org.json.simple.JSONObject;
@@ -18,13 +19,13 @@ import org.json.simple.JSONObject;
 public class AuthController extends Thread {
 
     final Servidor servidor;
-    List<Gamer> gamers=new LinkedList<>();
+    HashMap<Long,Gamer> gamers=new HashMap<>();
 
     public AuthController(Servidor servidor) {
         this.servidor = servidor;
     }
 
-    void login(JSONObject data, int clientHash) {
+    void login(JSONObject data, long clientHash) {
         String email = data.get("email").toString();
         String password = data.get("password").toString();
         boolean sw = email.compareTo("correo@gmail.com") == 0 && password.compareTo("12345678") == 0;
@@ -32,26 +33,31 @@ public class AuthController extends Thread {
         if(sw){
         Gamer gamer=new Gamer("sin nombre",email);
         gamer.setClientHash(clientHash);
-        gamers.add(gamer);
+        gamers.put(clientHash,gamer);
         }
         JSONObject obj = new JSONObject();
         obj.put("action", "login");
+        obj.put("id", clientHash);
         obj.put("success", sw);
         servidor.send(obj.toJSONString(), clientHash);
 
     }
 
-    void register(JSONObject data, int clientHash) {
+    void register(JSONObject data, long clientHash) {
         String name = data.get("name").toString();
         String email = data.get("email").toString();
         String password = data.get("password").toString();
         Gamer gamer=new Gamer(name,email);
         gamer.setClientHash(clientHash);
-        gamers.add(gamer);
+        gamers.put(clientHash,gamer);
         JSONObject obj = new JSONObject();
         obj.put("action", "register");
         obj.put("success", true);
         servidor.send(obj.toJSONString(), clientHash);
+    }
+    
+    public Gamer getGamer(long hash){
+        return gamers.get(hash);
     }
 
 }

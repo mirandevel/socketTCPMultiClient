@@ -12,18 +12,18 @@ package Game;
 public class Gamer {
    String name;
    String email;
-   int clientHash;
+   long clientHash;
 
     public Gamer(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public int getClientHash() {
+    public long getClientHash() {
         return clientHash;
     }
 
-    public void setClientHash(int clientHash) {
+    public void setClientHash(long clientHash) {
         this.clientHash = clientHash;
     }
 

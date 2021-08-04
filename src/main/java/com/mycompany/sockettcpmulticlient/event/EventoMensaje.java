@@ -13,18 +13,18 @@ import java.util.EventObject;
  */
 public class EventoMensaje extends EventObject{
     String mensaje;
-    int clientHash;
-    public EventoMensaje(Object source,int clientHash,String mensaje) {
+    long clientHash;
+    public EventoMensaje(Object source,long clientHash,String mensaje) {
         super(source);
         this.mensaje=mensaje;
         this.clientHash=clientHash;
     }
 
-    public int getClientHash() {
+    public long getClientHash() {
         return clientHash;
     }
 
-    public void setClientHash(int clientHash) {
+    public void setClientHash(long clientHash) {
         this.clientHash = clientHash;
     }
     
