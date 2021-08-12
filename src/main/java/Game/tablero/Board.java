@@ -20,7 +20,7 @@ public class Board {
     
     int[][] matrix;
     String template;
-    LinkedHashMap<Integer, List<Pawn>> pawns = new LinkedHashMap<>();
+    public LinkedHashMap<Integer, List<Pawn>> pawns = new LinkedHashMap<>();
     
     public Board() {
         Gson parser = new Gson();
@@ -36,28 +36,33 @@ public class Board {
         List<Pawn> list = new LinkedList<>();
         int fil = 0;
         int col = 0;
+        String color="";
         switch (pawns.size()) {
             case 0:
                 fil = 2;
                 col = 2;
+                color="yellow";
                 break;
             case 1:
                 fil = 2;
                 col = 11;
+                color="blue";
                 break;
             case 2:
                 fil = 11;
                 col = 2;
+                color="green";
                 break;
             case 3:
                 fil = 11;
                 col = 11;
+                color="red";
                 break;
         }
-        list.add(new Pawn(fil, col,1));
-        list.add(new Pawn(fil, col + 1,2));
-        list.add(new Pawn(fil + 1, col,3));
-        list.add(new Pawn(fil + 1, col + 1,4));
+        list.add(new Pawn(fil, col,1,color));
+        list.add(new Pawn(fil, col + 1,2,color));
+        list.add(new Pawn(fil + 1, col,3,color));
+        list.add(new Pawn(fil + 1, col + 1,4,color));
         pawns.put(gamerId, list);
     }
     

@@ -7,6 +7,7 @@ package Game;
 
 import Game.tablero.Board;
 import Game.tablero.Pawn;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -72,6 +73,27 @@ public class Game {
     }
     public List<Pawn> getPawnsById(int gamerId) {
     return board.getPawnsById(gamerId);
+    }
+    
+    public void movePawn(int gamerId,Pawn pawn){
+        
+        for(Pawn p:board.getPawnsById(gamerId)){
+            if(p.id==pawn.id){
+                p.x=pawn.x;
+                p.y=pawn.y;
+                p.anterior=pawn.anterior;
+            }
+        }
+    }
+    
+        public boolean allPawnsInBase(int gamerId) {
+
+        for (Pawn p : board.pawns.get(gamerId)) {
+             if(!p.inBase()){
+                 return false;
+             }
+        }
+        return true;
     }
 
 }

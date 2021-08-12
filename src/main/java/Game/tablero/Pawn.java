@@ -5,19 +5,24 @@
  */
 package Game.tablero;
 
+import java.awt.Point;
+
 /**
  *
  * @author Usuario
  */
 public class Pawn {
      public int x,y,id;
+    public String color;
+    public Point anterior;
 
-    public Pawn(int x, int y,int id) {
+    public Pawn(int x, int y,int id,String color) {
         this.x = x;
         this.y = y;
         this.id = id;
+        this.color=color;
+        anterior=new Point(0,0);
     }
-
 
     public int getX() {
         return x;
@@ -42,7 +47,14 @@ public class Pawn {
     public void setId(int id) {
         this.id = id;
     }
-    
+        public boolean inBase(){
+        if(x<=3 && y<=3) return true;
+        if(x<=3 && y>=11) return true;
+        if(x>=11 && y<=3) return true;
+        if(x<=11 && y>=11) return true;
+        
+        return false;
+    }
     
     
 }
