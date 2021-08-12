@@ -10,22 +10,14 @@ package Game.tablero;
  * @author Usuario
  */
 public class Pawn {
-    String color;
-    int x,y;
+     public int x,y,id;
 
-    public Pawn(String color, int x, int y) {
-        this.color = color;
+    public Pawn(int x, int y,int id) {
         this.x = x;
         this.y = y;
+        this.id = id;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public int getX() {
         return x;
@@ -42,6 +34,15 @@ public class Pawn {
     public void setY(int y) {
         this.y = y;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
     
 }

@@ -30,6 +30,8 @@ public class GameSocket implements ConexionListener, MensajeListener {
     final int PORT;
     AuthController authController;
     Game game = new Game();
+Gson gson = new Gson();
+ 
 
     public GameSocket(int port) {
         this.PORT = port;
@@ -52,49 +54,49 @@ public class GameSocket implements ConexionListener, MensajeListener {
 
     @Override
     public void onMessage(EventoMensaje event) {
-        try {
-            JSONParser parser = new JSONParser();
-            JSONObject jsonResult = (JSONObject) parser.parse(event.getMensaje());
-            String action = jsonResult.get("action").toString();
-            if (action.compareTo("login") == 0) {
+            Response response = gson.fromJson(event.getMensaje(), Response.class);
+            
+            if (response.isAction(Response.LOGIN)) {
                 Thread t = new Thread(() -> {
-                    authController.login(jsonResult, event.getClientHash());
+                    authController.login(response, event.getClientHash());
                 });
                 t.start();
             }
-            if (action.compareTo("game") == 0) {
-                JSONObject obj = new JSONObject();
+            if (response.isAction(Response.GAME)) {
+                Response response1=new Response(Response.NEW_GAMER);
                 game.addGamer(authController.getGamer(event.getClientHash()));
-
-                obj.put("action", "new_gamer");
-                obj.put("id", event.getClientHash());
-                for (Long key : game.gamers.keySet()) {
-                    servidor.send(obj.toJSONString(), key);
+                response1.add("gamer",gson.toJson(game.gamers.get(event.getClientHash())));
+                response1.add("pawns",gson.toJson( game.getPawnsById(event.getClientHash())));
+                for (Integer key : game.gamers.keySet()) {
+                    servidor.send(gson.toJson(response1), key);
                 }
 
-                obj = new JSONObject();
-                obj.put("action", "game");
-                obj.put("gamers", game.getIds());
-                obj.put("turn", game.getTurn());
-                obj.put("success", true);
-                obj.put("template", game.getBoard().getTemplate());
+                response1=new Response(Response.GAME);
+                response1.add("game",gson.toJson(game));
+                response1.add("template", game.getBoard().getTemplate());
 
-                servidor.send(obj.toJSONString(), event.getClientHash());
+                servidor.send(gson.toJson(response1), event.getClientHash());
             }
-            if (action.compareTo("launch_dice") == 0) {
-                for (Long key : game.gamers.keySet()) {
-                    servidor.send(jsonResult.toJSONString(), key);
+            if (response.isAction(Response.LAUNCH_DICE)) {
+                for (Integer key : game.gamers.keySet()) {
+                    servidor.send(event.getMensaje(), key);
                 }
             }
-             if (action.compareTo("finish_dice") == 0) {
-                 jsonResult.put("turn", game.nextTurn());
-                for (Long key : game.gamers.keySet()) {
-                    servidor.send(jsonResult.toJSONString(), key);
+             if (response.isAction(Response.FINISH_DICE)) {
+                 int number = ((Double) response.get("number")).intValue();
+                 if(number!=6){
+                 response.add("turn", game.nextTurn());
+                 }else{
+                     response.add("turn", game.getTurn());
+                 }
+                for (Integer key : game.gamers.keySet()) {
+                    servidor.send(gson.toJson(response), key);
                 }
             }
-        } catch (ParseException ex) {
-            Logger.getLogger(GameSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
+             if (response.isAction(Response.MOVE_PAWN)) {
+                 System.out.println("moviendo");
+             }
+        
     }
 
 }

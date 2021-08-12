@@ -6,6 +6,7 @@
 package Game;
 
 import Game.tablero.Board;
+import Game.tablero.Pawn;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,9 +18,9 @@ import java.util.List;
  */
 public class Game {
 
-    HashMap<Long, Gamer> gamers = new HashMap<>();
+    HashMap<Integer, Gamer> gamers = new HashMap<>();
     Board board;
-    long turnId;
+    int turnId;
 
     public Game() {
         this.board = new Board();
@@ -29,7 +30,7 @@ public class Game {
         return board;
     }
 
-    public long getTurn() {
+    public int getTurn() {
         return turnId;
     }
 
@@ -51,6 +52,7 @@ public class Game {
 
     public void addGamer(Gamer gamer) {
         gamers.put(gamer.clientHash, gamer);
+        board.addPawns(gamer.clientHash);
         if (gamers.size() == 1) {
             turnId = getIds().getFirst();
         }
@@ -60,9 +62,16 @@ public class Game {
         gamers.remove(gamer.clientHash);
     }
 
-    public LinkedList<Long> getIds() {
-        LinkedList<Long> ids = new LinkedList<>(gamers.keySet());
+    public LinkedList<Integer> getIds() {
+        LinkedList<Integer> ids = new LinkedList<>(gamers.keySet());
         return ids;
+    }
+
+    HashMap<Integer, List<Pawn>> getPawns() {
+        return board.getPawns();
+    }
+    public List<Pawn> getPawnsById(int gamerId) {
+    return board.getPawnsById(gamerId);
     }
 
 }
